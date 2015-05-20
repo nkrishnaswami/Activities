@@ -8,8 +8,7 @@ import os
 import sys
 from authcfg import AuthCfg
 from tweetserializer import TweetSerializer
-from tweetserializer import UsernameFacet
-from tweetserializer import RollingOutputFacet
+import facet as Facet
 # Don't forget to install tweepy
 # pip install tweepy
 
@@ -30,8 +29,8 @@ q = urllib.quote_plus(sys.argv[1])  # URL encoded query
 def getJson(tweets):
    for tweet in tweets:
       yield tweet._json
-#with UsernameFacet() as facet:
-with RollingOutputFacet("tweets-{0}.json", 1000) as facet:
+#with Facet.UsernameFacet() as facet:
+with Facet.RollingOutputFacet("tweets-{0}.json", 5000) as facet:
    ts = TweetSerializer(facet)
    for page in tweepy.Cursor(api.search,q=q).pages(10): # 15 tweets at a time
       ts.emit(getJson(page))
