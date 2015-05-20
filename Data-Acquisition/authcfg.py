@@ -1,6 +1,16 @@
 import ConfigParser
 
 class AuthCfg(object):
+   """This class reads the specified file using ConfigParser, and makes
+   the twitter API/OAUTH keys available
+   The config file should have the format:
+       [consumer]
+       key=xxx
+       secret=xxx
+       [access]
+       token=xxx
+       secret=xxx
+   """
    def __init__(self, fileName):
       cp = ConfigParser.RawConfigParser()
       with open(fileName) as cfg:    

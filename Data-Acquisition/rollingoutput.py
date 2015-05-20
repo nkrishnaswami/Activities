@@ -1,6 +1,15 @@
 from recordoutput import RecordOutput
 class RollingOutput(object):
+    """This is a file-like object for writing to a "rolling" set of files,
+    with a user-specified bound on the number of records to write to
+    each actual file.
+
+    """
     def __init__(self, file_format, rec_limit):
+        """`file_format` is a format string that contains "{0}" to indicate
+        where the file count should be emitted in the file name
+
+        """
         self.file = None
         self.file_format = file_format
         self.rec_limit = rec_limit
