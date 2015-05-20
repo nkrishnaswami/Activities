@@ -2,6 +2,7 @@ import json
 import os
 import sys
 import signal
+import time
 
 class TweetSerializer(object):
     def __init__(self, facet):
@@ -13,6 +14,7 @@ class TweetSerializer(object):
             sig_handler = signal.signal(signal.SIGINT, signal.SIG_IGN)
             self.facet.emit(item)
             signal.signal(signal.SIGINT, sig_handler)
+            time.sleep(.1)
 
 def main():
     with RollingOutputFacet('foo', 2) as facet:

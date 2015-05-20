@@ -19,18 +19,14 @@ auth.set_access_token(cfg.access_token, cfg.access_token_secret)
 
 api = tweepy.API(auth_handler=auth,wait_on_rate_limit=True,wait_on_rate_limit_notify=True)
 
-q = urllib.quote_plus(sys.argv[1])  # URL encoded query
-
-# Additional query parameters:
-#   since: {date}
-#   until: {date}
-# Just add them to the 'q' variable: q+" since: 2014-01-01 until: 2014-01-02"
+# URL encoded query
+q = urllib.quote_plus(sys.argv[1])
 
 def getJson(tweets):
    for tweet in tweets:
       yield tweet._json
-#with Facet.UsernameFacet() as facet:
-with Facet.RollingOutputFacet("tweets-{0}.json", 5000) as facet:
+with Facet.UsernameFacet(api) as facet:
+#with Facet.RollingOutputFacet("tweets-{0}.json", 5000) as facet:
    ts = TweetSerializer(facet)
-   for page in tweepy.Cursor(api.search,q=q).pages(10): # 15 tweets at a time
+   for page in tweepy.Cursor(api.search,q=q,count=100).pages(10):
       ts.emit(getJson(page))

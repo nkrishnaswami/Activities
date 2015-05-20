@@ -1,8 +1,8 @@
 from recordoutput import RecordOutput
 class RollingOutput(object):
-    def __init__(self, file_base, rec_limit):
+    def __init__(self, file_format, rec_limit):
         self.file = None
-        self.file_base = file_base
+        self.file_format = file_format
         self.rec_limit = rec_limit
         self.file_count = 0
         self.rec_count = 0
@@ -11,7 +11,7 @@ class RollingOutput(object):
             self.file.close()
             self.file = None
     def open(self):
-        self.file = RecordOutput(open(self.file_base.format(self.file_count), 'w'))
+        self.file = RecordOutput(open(self.file_format.format(self.file_count), 'w'))
         self.file.open()
         self.file_count += 1
 
